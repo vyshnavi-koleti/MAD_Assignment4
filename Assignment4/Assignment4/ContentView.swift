@@ -23,7 +23,6 @@ struct CountryName: Codable {
 struct ContentView: View {
     
     @State var countries =  [Country]()
-    @State private var showingAlert = false
     
     func getAllCountries() async -> () {
         do {
@@ -41,27 +40,34 @@ struct ContentView: View {
             List(countries) { country in
                 VStack(alignment: .leading) {
                     
-                    
-//                    Text("\(country.flag) • \(country.name.common)")
-                    
-                    Button("\(country.flag) • \(country.name.common)"){
-                        showingAlert = true
-                    }
-                    .alert(isPresented: $showingAlert) {
-                        Alert(title: Text("\(country.name.common)"), message: Text("\(country.population)"), dismissButton: .default(Text("Got it!")))
+                    Text("\(country.name.common) ")
+                        .font(.title)
+                    HStack{
+                        
+                        Text("\(country.flag) \(country.population)")
+                            .font(.subheadline)
+                        
                     }
                     
                 }
+                //                    Button("\(country.flag) • \(country.name.common)"){
+                //                        showingAlert = true
+                //                    }
+                //                    .alert(isPresented: $showingAlert) {
+                //                        Alert(title: Text("\(country.name.common)"), message: Text("\(country.population)"), dismissButton: .default(Text("Got it!")))
             }
             .task {
                 await getAllCountries()
             }
+            
         }
         .navigationTitle("Countries")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
-
-#Preview {
-    ContentView()
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
 }

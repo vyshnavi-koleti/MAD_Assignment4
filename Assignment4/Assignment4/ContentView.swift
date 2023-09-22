@@ -13,6 +13,7 @@ struct Country: Codable, Identifiable {
     var capital: [String]?
     var flag: String
     var population: Int
+    
 }
 
 struct CountryName: Codable {
@@ -39,15 +40,17 @@ struct ContentView: View {
         NavigationView {
             List(countries) { country in
                 VStack(alignment: .leading) {
-                    
-                    Text("\(country.name.common) ")
-                        .font(.title)
-                    HStack{
-                        
-                        Text("\(country.flag) \(country.population)")
-                            .font(.subheadline)
-                        
+                    NavigationLink(destination : CountryDetails(country: country)){
+                        Text("\(country.name.common)")
                     }
+//                    Text("\(country.name.common) ")
+//                        .font(.title)
+//                    HStack{
+//                        
+//                        Text("\(country.flag) \(country.population)")
+//                            .font(.subheadline)
+//                        
+//                    }
                     
                 }
                 //                    Button("\(country.flag) • \(country.name.common)"){
@@ -62,8 +65,24 @@ struct ContentView: View {
             
         }
         .navigationTitle("Countries")
-        .navigationBarTitleDisplayMode(.inline)
     }
+}
+
+struct CountryDetails: View{
+    var country: Country
+    
+    var body: some View{
+            Text("Flag : \(country.flag)")
+                .font(.title)
+            Text("Country Name : \(country.name.common)")
+                .italic()
+                .font(.headline)
+            Text("Population : \(country.population)")
+                .font(.subheadline)
+        .navigationTitle("Country Details")
+        
+    }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
